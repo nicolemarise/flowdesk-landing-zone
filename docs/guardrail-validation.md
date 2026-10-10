@@ -11,12 +11,12 @@ account. Identity was confirmed before every run with `aws sts get-caller-identi
 | # | Guardrail (SCP) | Attempted action | Result |
 |---|---|---|---|
 | 1 | Protect CloudTrail and Config | Stop the organization CloudTrail | Denied (see note below) |
-| 2 | Protect CloudTrail and Config | Stop the AWS Config recorder in Workloads | TODO: paste result |
-| 3 | Deny public S3 | Disable Block Public Access on a bucket | TODO: paste result |
-| 4 | Deny public S3 | Set a bucket ACL to public-read | TODO: paste result |
-| 5 | Restrict regions | List VPCs in ap-southeast-1 | TODO: paste result |
-| 6 | Require encryption | Create an unencrypted EBS volume | TODO: paste result |
-| 7 | Deny leaving the organization | Run `organizations leave-organization` | TODO: paste result |
+| 2 | Protect CloudTrail and Config | Stop the AWS Config recorder in Workloads | Denied: explicit deny in a service control policy (`flowdesk-protect-logging`) |
+| 3 | Deny public S3 | Disable Block Public Access on a bucket | Denied: explicit deny in a service control policy (`flowdesk-deny-public-s3`) |
+| 4 | Deny public S3 | Set a bucket ACL to public-read | Blocked by S3 Block Public Access (BlockPublicAcls). The SCP in row 3 stops anyone switching that setting off, so the two layers protect each other |
+| 5 | Restrict regions | List VPCs in ap-southeast-1 | Denied: explicit deny in a service control policy (`flowdesk-restrict-regions`) |
+| 6 | Require encryption | Create an unencrypted EBS volume | Denied: explicit deny in a service control policy (`flowdesk-require-encryption`) |
+| 7 | Deny leaving the organization | Run `organizations leave-organization` | Denied (AccessDenied). The Organizations API returns a generic message, so it does not name the SCP |
 | 8 | Require encryption | Create an unencrypted RDS instance | Denied during the initial Flowdesk deploy (`explicit deny in a service control policy`), then fixed in code with `storage_encrypted = true` |
 
 ## Notes on the CloudTrail test
@@ -40,3 +40,4 @@ apply, so the actions succeeded and the organization trail was briefly stopped
 (about 3 minutes of logging gap). It was restarted immediately. The tests were
 then re-run from the Workloads account with a named profile and the account
 verified first.
+
