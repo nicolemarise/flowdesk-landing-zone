@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowDesk — Support Operations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">F</div><span>FlowDesk</span></div>
+    <div class="workspace">FLOWDESK SUPPORT <span>⌄</span></div>
+    <nav>
+      <button class="nav-item active" data-view="dashboard"><span>▦</span> Dashboard</button>
+      <button class="nav-item" data-view="tickets"><span>▤</span> Tickets <b id="navCount">12</b></button>
+      <button class="nav-item" data-view="customers"><span>♙</span> Customers</button>
+      <button class="nav-item" data-view="team"><span>♧</span> Team</button>
+      <button class="nav-item" data-view="reports"><span>◒</span> Reports</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="nav-item"><span>⚙</span> Settings</button>
+      <div class="user-card"><div class="avatar">NM</div><div><strong>Nicole Marise</strong><small>Administrator</small></div><span>⋯</span></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="mobile-menu" id="mobileMenu">☰</button>
+      <div class="search"><span>⌕</span><input id="globalSearch" placeholder="Search tickets, customers, or agents..."></div>
+      <div class="top-actions"><button class="icon-btn">?</button><button class="icon-btn notification">♢<i></i></button><div class="top-avatar">NM</div></div>
+    </header>
+
+    <section class="content">
+      <div class="view" id="dashboardView">
+        <div class="page-head">
+          <div><p class="eyebrow">MONDAY, SEPTEMBER 14, 2026</p><h1>Good morning, Nicole.</h1><p class="muted">Here's what's happening with your support team today.</p></div>
+          <button class="primary" id="newTicketBtn">＋ New ticket</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card"><div class="stat-top"><span>Open tickets</span><span class="stat-icon">◫</span></div><strong id="openStat">12</strong><div class="trend up">↑ 8.2% <span>vs last week</span></div></div>
+          <div class="stat-card"><div class="stat-top"><span>Awaiting reply</span><span class="stat-icon">◌</span></div><strong id="replyStat">5</strong><div class="trend down">↓ 3.1% <span>vs last week</span></div></div>
+          <div class="stat-card"><div class="stat-top"><span>Resolved today</span><span class="stat-icon">✓</span></div><strong id="resolvedStat">18</strong><div class="trend up">↑ 12.4% <span>vs last week</span></div></div>
+          <div class="stat-card"><div class="stat-top"><span>Avg. response</span><span class="stat-icon">◷</span></div><strong>42m</strong><div class="trend up">↑ 6.8% <span>faster than last week</span></div></div>
+        </div>
+
+        <div class="grid-two">
+          <div class="panel">
+            <div class="panel-head"><div><h2>Recent tickets</h2><p>Latest customer conversations</p></div><button class="text-btn" data-view-link="tickets">View all →</button></div>
+            <div class="ticket-table" id="recentTickets"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><h2>Team workload</h2><p>Tickets assigned today</p></div><button class="text-btn" data-view-link="team">View team →</button></div>
+            <div class="workload" id="workload"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="view hidden" id="ticketsView">
+        <div class="page-head"><div><p class="eyebrow">SUPPORT OPERATIONS</p><h1>Tickets</h1><p class="muted">Manage and resolve customer requests.</p></div><button class="primary" id="newTicketBtn2">＋ New ticket</button></div>
+        <div class="filter-bar"><div class="search small"><span>⌕</span><input id="ticketSearch" placeholder="Search tickets..."></div><select id="statusFilter"><option>All statuses</option><option>Open</option><option>In Progress</option><option>Waiting</option><option>Resolved</option></select><select id="priorityFilter"><option>All priorities</option><option>High</option><option>Medium</option><option>Low</option></select></div>
+        <div class="panel"><div class="ticket-table full" id="allTickets"></div></div>
+      </div>
+
+      <div class="view hidden" id="customersView">
+        <div class="page-head"><div><p class="eyebrow">CUSTOMER MANAGEMENT</p><h1>Customers</h1><p class="muted">Keep customer conversations and history organised.</p></div></div>
+        <div class="customer-grid" id="customers"></div>
+      </div>
+
+      <div class="view hidden" id="teamView">
+        <div class="page-head"><div><p class="eyebrow">YOUR SUPPORT TEAM</p><h1>Team</h1><p class="muted">Monitor workload and agent performance.</p></div><button class="primary">＋ Invite member</button></div>
+        <div class="team-grid" id="teamGrid"></div>
+      </div>
+
+      <div class="view hidden" id="reportsView">
+        <div class="page-head"><div><p class="eyebrow">INSIGHTS</p><h1>Reports</h1><p class="muted">Understand your support operation at a glance.</p></div><button class="secondary">Export report</button></div>
+        <div class="report-grid">
+          <div class="panel report-panel"><div class="panel-head"><div><h2>Tickets this week</h2><p>Incoming vs resolved</p></div></div><div class="chart"><div class="bars"><i style="height:55%"></i><i style="height:72%"></i><i style="height:43%"></i><i style="height:86%"></i><i style="height:66%"></i><i style="height:92%"></i><i style="height:78%"></i></div><div class="days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div></div></div>
+          <div class="panel"><div class="panel-head"><div><h2>Resolution rate</h2><p>Last 30 days</p></div></div><div class="donut"><div><strong>86%</strong><span>Resolved</span></div></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop hidden" id="ticketModal">
+    <div class="modal">
+      <button class="close" id="closeModal">×</button>
+      <p class="eyebrow">CREATE TICKET</p><h2>New support ticket</h2><p class="muted">Create a request and assign it to your team.</p>
+      <form id="ticketForm">
+        <label>Customer<input name="customer" required placeholder="e.g. Sarah Johnson"></label>
+        <label>Subject<input name="subject" required placeholder="What does the customer need help with?"></label>
+        <div class="form-row"><label>Priority<select name="priority"><option>Medium</option><option>High</option><option>Low</option></select></label><label>Category<select name="category"><option>Account</option><option>Billing</option><option>Technical</option><option>General</option></select></label></div>
+        <label>Description<textarea name="description" rows="4" placeholder="Add more details..."></textarea></label>
+        <button class="primary full-btn">Create ticket</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast">Ticket created successfully ✓</div>
+  <script src="script.js"></script>
+</body>
+</html>
