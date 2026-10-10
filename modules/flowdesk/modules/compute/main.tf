@@ -44,14 +44,14 @@ resource "aws_launch_template" "this" {
   block_device_mappings {
     device_name = "/dev/xvda"
     ebs {
-      volume_size           = 8
+      volume_size           = 30
       volume_type           = "gp3"
       encrypted             = true
       delete_on_termination = true
     }
   }
 
-  user_data = base64encode(local.user_data)
+  user_data = base64encode(replace(local.user_data, "\r", ""))
 
   tag_specifications {
     resource_type = "instance"
@@ -139,3 +139,4 @@ resource "aws_autoscaling_policy" "cpu_target_tracking" {
     target_value = var.cpu_target_value
   }
 }
+
