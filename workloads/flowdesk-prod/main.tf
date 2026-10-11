@@ -32,7 +32,7 @@ provider "aws" {
   region = "eu-west-1"
 
   assume_role {
-    role_arn     = "arn:aws:iam::${local.workloads_account_id}:role/OrganizationAccountAccessRole"
+    role_arn     = "arn:aws:iam::${local.workloads_account_id}:role/flowdesk-terraform-deployer"
     session_name = "terraform-flowdesk"
   }
 
@@ -75,3 +75,4 @@ output "s3_bucket_name" {
 output "asg_name" {
   value = module.flowdesk.asg_name
 }
+
