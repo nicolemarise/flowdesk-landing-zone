@@ -14,24 +14,16 @@ A 5-account AWS Organization where the account boundary is the blast-radius boun
 
 ```mermaid
 flowchart TB
-    subgraph ORG["AWS Organization"]
-        MGMT["Management account<br/>Organizations, SCPs, org CloudTrail,<br/>Terraform state bucket"]
-        subgraph SEC["Security OU"]
-            S1["Security account"]
-            S2["Log Archive account<br/>S3 log bucket, deletion denied"]
-        end
-        subgraph INF["Infrastructure OU"]
-            I1["Shared Services account"]
-        end
-        subgraph WL["Workloads OU (6 SCPs attached)"]
-            W1["Workloads account<br/>Flowdesk: VPC, ALB, ASG, RDS, S3"]
-        end
-    end
-    MGMT -->|"org trail delivers logs"| S2
-    S1 -.->|"Config recorder"| S2
-    I1 -.->|"Config recorder"| S2
-    W1 -.->|"Config recorder"| S2
-    MGMT -->|"Terraform assumes scoped deployer role"| W1
+    MGMT["Management account (Organizations, SCPs, org CloudTrail, state bucket)"]
+    S1["Security account (Security OU)"]
+    S2["Log Archive account (Security OU, S3 log bucket)"]
+    I1["Shared Services account (Infrastructure OU)"]
+    W1["Workloads account (Workloads OU, Flowdesk stack)"]
+    MGMT -->|"org trail logs"| S2
+    S1 -->|"Config logs"| S2
+    I1 -->|"Config logs"| S2
+    W1 -->|"Config logs"| S2
+    MGMT -->|"deploys via scoped role"| W1
 ```
 
 | Account | OU | Purpose |
