@@ -123,3 +123,35 @@ Organizations, SCPs and IAM are free. The first copy of management events in Clo
 
 How to onboard a new workload account: [docs/runbook-onboard-workload-account.md](docs/runbook-onboard-workload-account.md).
 
+<img width="1361" height="761" alt="Screenshot 2026-10-10 180559" src="https://github.com/user-attachments/assets/30f8050c-8238-4d20-9a5b-3b9cf692931b" />
+<img width="1361" height="760" alt="Screenshot 2026-10-10 183427" src="https://github.com/user-attachments/assets/a8d104be-92fe-43f3-b52d-2f0ae5eeb09f" />
+<img width="1360" height="760" alt="Screenshot 2026-10-10 183903" src="https://github.com/user-attachments/assets/b49c1204-5055-4ed6-bb26-39e8eb7e05ba" />
+<img width="1365" height="767" alt="Screenshot 2026-10-10 184502" src="https://github.com/user-attachments/assets/e23d7d64-b0e8-43a2-a387-8fce6816e8f3" />
+
+<img width="1364" height="767" alt="Screenshot 2026-10-10 190231" src="https://github.com/user-attachments/assets/4523ac4f-a9cb-4619-9be5-c69be560176c" />
+<img width="1365" height="767" alt="Screenshot 2026-10-10 191027" src="https://github.com/user-attachments/assets/43e3d3d8-f22d-4ef8-ba85-c8dc75682ddd" />
+
+<img width="1365" height="766" alt="Screenshot 2026-10-10 192255" src="https://github.com/user-attachments/assets/4dc398f5-cbdb-4b99-8cbf-6d48b6dd5f22" /> <img width="1365" height="767" alt="Screenshot 2026-10-10 202013" src="https://github.com/user-attachments/assets/552f25ed-36f3-4b18-b00d-67f02a6196f4" />
+<img width="1362" height="763" alt="Screenshot 2026-10-10 202135" src="https://github.com/user-attachments/assets/96ff1492-9ace-4ab1-b740-f20879e4a4ee" />
+<img width="1365" height="767" alt="Screenshot 2026-10-10 202306" src="https://github.com/user-attachments/assets/4d653d08-cad5-4bdf-866b-50af22dc2e6a" />
+<img width="1365" height="766" alt="Screenshot 2026-10-10 202643" src="https://github.com/user-attachments/assets/d58df565-e63c-4c19-9f1d-9b008df11e40" />
+<img width="1365" height="764" alt="Screenshot 2026-10-10 202739" src="https://github.com/user-attachments/assets/2a26cade-9c9a-4f6a-955c-ab7999b5ee5d" />
+<img width="1362" height="754" alt="Screenshot 2026-10-10 202949" src="https://github.com/user-attachments/assets/773fd986-2521-4154-b829-7016a255b2d6" />
+<img width="1364" height="764" alt="Screenshot 2026-10-10 203001" src="https://github.com/user-attachments/assets/44e0fa0a-276e-4793-9f02-51602864473e" /><img width="1365" height="767" alt="Screenshot 2026-10-10 203010" src="https://github.com/user-attachments/assets/e98815e9-51dd-48e5-b963-421c935aaea0" />
+
+<img width="1365" height="766" alt="Screenshot 2026-10-10 203019" src="https://github.com/user-attachments/assets/ec5a53c1-4ca6-4ef5-9571-6f0339dbc7ea" />
+<img width="680" height="767" alt="Screenshot 2026-10-10 203854" src="https://github.com/user-attachments/assets/916732d7-f796-4db9-a115-a3a6f33bfd65" />
+
+<img width="678" height="766" alt="Screenshot 2026-10-10 203914" src="https://github.com/user-attachments/assets/6f9fa92d-687d-41f6-b222-43c30dbb9229" />
+<img width="680" height="767" alt="Screenshot 2026-10-10 203930" src="https://github.com/user-attachments/assets/e148190b-8d68-4746-9716-89ca021f0129" />
+<img width="677" height="760" alt="Screenshot 2026-10-10 203945" src="https://github.com/user-attachments/assets/2b317165-9aa1-434c-9a33-8899d4325215" /><img width="678" height="767" alt="Screenshot 2026-10-10 204002" src="https://github.com/user-attachments/assets/e7831a46-89b0-4995-8fa4-dc8fc1f3a5cd" /><img width="1365" height="767" alt="Screenshot 2026-10-10 205250" src="https://github.com/user-attachments/assets/f0acef3c-2352-4f2d-9f8d-d7b271ae87df" />
+<img width="1362" height="762" alt="Screenshot 2026-10-11 063017" src="https://github.com/user-attachments/assets/faf8b330-0647-4b50-8d94-1b67ccdccfcb" />
+<img width="1365" height="767" alt="Screenshot 2026-10-11 063349" src="https://github.com/user-attachments/assets/4b182182-a4a8-4d37-93ee-9b55dc2f3d71" />
+<img width="674" height="767" alt="Screenshot 2026-10-11 064201" src="https://github.com/user-attachments/assets/be912fa6-cfad-4f1a-8ffe-026238f76bfe" />
+<img width="677" height="767" alt="Screenshot 2026-10-11 064815" src="https://github.com/user-attachments/assets/9e0ae701-5c47-47d4-85ee-4ec731c6f846" />
+<img width="1365" height="734" alt="Screenshot 2026-10-11 065821" src="https://github.com/user-attachments/assets/8f32b31b-5718-4979-bd2a-ea1a549816e5" />
+<img width="1365" height="767" alt="Screenshot 2026-10-11 065901" src="https://github.com/user-attachments/assets/f6df85fe-9aa9-409e-a154-7895fbfe3675" />
+<img width="1354" height="767" alt="Screenshot 2026-10-11 075647" src="https://github.com/user-attachments/assets/21e372f3-f591-4a57-a628-744120d9482f" /><img width="1365" height="767" alt="Screenshot 2026-10-11 075659" src="https://github.com/user-attachments/assets/23058221-de39-4c89-b80e-aac767550376" />
+
+
+
