@@ -12,19 +12,24 @@ Flowdesk was built and proven in a single AWS account with a personal admin iden
 
 A 5-account AWS Organization where the account boundary is the blast-radius boundary, guardrails are code, and logs are written somewhere the workload account cannot erase.
 
+
+## Architecture
+
 ```mermaid
 flowchart TB
-    MGMT["Management account (Organizations, SCPs, org CloudTrail, state bucket)"]
-    S1["Security account (Security OU)"]
-    S2["Log Archive account (Security OU, S3 log bucket)"]
-    I1["Shared Services account (Infrastructure OU)"]
-    W1["Workloads account (Workloads OU, Flowdesk stack)"]
-    MGMT -->|"org trail logs"| S2
-    S1 -->|"Config logs"| S2
-    I1 -->|"Config logs"| S2
-    W1 -->|"Config logs"| S2
-    MGMT -->|"deploys via scoped role"| W1
+    MGMT["Management Account<br/>Organizations, SCPs, Terraform State"]
+    SEC["Security Account<br/>Security OU"]
+    LOG["Log Archive Account<br/>Centralized S3 Logs"]
+    SHARED["Shared Services Account<br/>Infrastructure OU"]
+    WORK["Workloads Account<br/>FlowDesk Application"]
+
+    MGMT -->|"Organization CloudTrail"| LOG
+    MGMT -->|"Assumes deployment role"| WORK
+    SEC -->|"AWS Config delivery"| LOG
+    SHARED -->|"AWS Config delivery"| LOG
+    WORK -->|"AWS Config delivery"| LOG
 ```
+  
 
 ## Technologies Used
 
