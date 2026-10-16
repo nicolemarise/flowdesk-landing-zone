@@ -130,15 +130,16 @@ Detailed test steps and outcomes:
 Guardrails were tested by attempting the forbidden actions from the Workloads account. Results and notes, including a mistake I made by testing from the wrong account first, are in [docs/guardrail-validation.md](docs/guardrail-validation.md).
 
 
-## Repository Layout
+
+## Repository Structure
 
 ```text
 .
-├── bootstrap/          # Terraform state bucket
-├── organization/       # Organization, OUs, accounts, SCPs
-├── logging/            # Log Archive and organization CloudTrail
-├── config/             # AWS Config recorders
-├── iam/                # Terraform deployer role
+├── bootstrap/           # Terraform state bucket
+├── organization/        # Organization, OUs, accounts, SCPs
+├── logging/             # Log Archive and organization CloudTrail
+├── config/              # AWS Config recorders
+├── iam/                 # Terraform deployer role
 ├── modules/
 │   ├── config-recorder/ # Reusable Config recorder
 │   └── flowdesk/        # Reusable Flowdesk infrastructure
@@ -146,7 +147,6 @@ Guardrails were tested by attempting the forbidden actions from the Workloads ac
 │   └── flowdesk-prod/   # Workload deployment
 └── docs/                # ADRs, runbook, validation, screenshots
 ```
-
 
 ## Cost Management
 
