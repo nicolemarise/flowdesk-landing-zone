@@ -116,20 +116,22 @@ The full Flowdesk stack (35 resources) was created and destroyed through this ro
 
 Guardrails were tested by attempting the forbidden actions from the Workloads account. Results and notes, including a mistake I made by testing from the wrong account first, are in [docs/guardrail-validation.md](docs/guardrail-validation.md).
 
-## Repository layout
 
-```
-bootstrap/        Terraform state bucket (S3, versioned, encrypted, TLS-only)
-organization/     Organization, OUs, member accounts, SCPs
-logging/          Log Archive bucket and organization CloudTrail
-config/           AWS Config recorders in all five accounts
-iam/              Least-privilege Terraform deployer role (Workloads account)
+## Repository Structure
+
+```text
+bootstrap/          Terraform state bucket setup
+organization/       AWS Organization, OUs, accounts, SCPs
+logging/            Log Archive bucket and organization CloudTrail
+config/             AWS Config recorders
+iam/                Least-privilege deployment role
 modules/
-  config-recorder/  Reusable Config recorder
-  flowdesk/         Flowdesk VPC/ALB/ASG/RDS/S3/monitoring module
+  config-recorder/  Reusable Config recorder module
+  flowdesk/         Reusable application infrastructure module
 workloads/
-  flowdesk-prod/    Deploys the module into the Workloads account
-docs/             ADR, runbook, validation results, screenshots
+  flowdesk-prod/    Workload deployment configuration
+docs/
+  ADRs, runbooks, validation results and screenshots
 ```
 
 All changes to `main` go through pull requests (enforced by a GitHub ruleset).
