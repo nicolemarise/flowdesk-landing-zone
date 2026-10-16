@@ -99,20 +99,33 @@ Deploying it into the governed account exposed code that the guardrails correctl
 | Hardcoded EC2 key pair | Made optional. Instances are in private subnets with no SSH |
 | Windows line endings corrupted the user data script | Strip carriage returns in Terraform before encoding |
 
-## Least-privilege deployer role
 
-Flowdesk is deployed through `flowdesk-terraform-deployer` in the Workloads account, not through `OrganizationAccountAccessRole` (effectively administrator). Defined in `iam/main.tf`:
+## Controlled Cross-Account Deployment
 
-- Trust is limited to the management-account Terraform user.
-- EC2, ELB, Auto Scaling, RDS, CloudWatch and S3 are allowed in eu-west-1 only.
-- IAM is limited to `flowdesk-*` roles and instance profiles, and the only managed policy it can attach is `AmazonS3ReadOnlyAccess`. `PassRole` is limited to EC2.
-- KMS is usable only through RDS and EC2.
-- An explicit deny blocks creating IAM users or access keys, and using Organizations, CloudTrail and Config.
-- An explicit deny stops the role editing itself, which prevents privilege escalation.
+The `flowdesk-terraform-deployer` role enables Terraform
+to deploy the Flowdesk workload into a separate AWS account
+without relying on an administrator role for routine deployment.
+
+Its trust policy, service-level permissions, region restrictions,
+and explicit deny statements limit its access. Fine-grained,
+action-by-action permissions remain a planned improvement.
 
 The full Flowdesk stack (35 resources) was created and destroyed through this role.
 
 ## Validation
+
+## Validation Summary
+
+| Control | Test performed | Result |
+|---|---|---|
+| Region restriction | Attempted a prohibited regional action | See validation evidence |
+| Logging protection | Attempted a restricted logging change | See validation evidence |
+| Encryption requirement | Tested an unencrypted resource configuration | See validation evidence |
+| Public S3 protection | Tested a prohibited public-access change | See validation evidence |
+
+Detailed test steps and outcomes:
+[Guardrail Validation](docs/guardrail-validation.md)
+
 
 Guardrails were tested by attempting the forbidden actions from the Workloads account. Results and notes, including a mistake I made by testing from the wrong account first, are in [docs/guardrail-validation.md](docs/guardrail-validation.md).
 
@@ -136,9 +149,19 @@ docs/
 
 All changes to `main` go through pull requests (enforced by a GitHub ruleset).
 
-## Cost
+## Cost Management
 
-Organizations, SCPs and IAM are free. The first copy of management events in CloudTrail is free. The Flowdesk stack (ALB, two small instances, one small RDS instance, no NAT Gateway) cost roughly $0.15 per hour and was destroyed after testing. The organization, logging, config and iam stacks were left in place.
+The Flowdesk workload stack was destroyed after testing to
+avoid ongoing compute, load balancer and database charges.
+
+The AWS Organization and supporting governance resources remain.
+AWS Config recording and delivery, S3 storage and requests, and
+other enabled services may still incur charges depending on usage.
+
+The historical workload cost is an estimate, not a verified
+current price. Actual costs depend on Region, resource sizing,
+usage and AWS pricing.
+
 
 ## Known limitations and next steps
 
