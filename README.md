@@ -26,6 +26,29 @@ flowchart TB
     MGMT -->|"deploys via scoped role"| W1
 ```
 
+## Technologies Used
+
+- **Cloud Platform:** Amazon Web Services (AWS)
+- **Infrastructure as Code:** Terraform
+- **Organization & Governance:** AWS Organizations, Service Control Policies (SCPs)
+- **Security & Identity:** AWS IAM, least-privilege access, cross-account IAM roles
+- **Audit & Compliance:** AWS CloudTrail, AWS Config
+- **Storage & Logging:** Amazon S3, centralized log archive
+- **Validation:** Terraform validation and AWS configuration testing
+
+## Key Capabilities
+
+- Five-account AWS Organization with separated responsibilities
+- Six Service Control Policies for organizational guardrails
+- Centralized, organization-wide CloudTrail logging
+- AWS Config for resource configuration visibility
+- Least-privilege cross-account deployment role
+- Terraform-based infrastructure deployment and management
+
+## Project Status
+
+The landing-zone configuration and workload deployment were implemented and tested in AWS. The workload stack was subsequently destroyed to control ongoing costs. The repository retains the implementation and documentation, with screenshots and validation evidence used to demonstrate the project.
+
 | Account | OU | Purpose |
 |---|---|---|
 | Management | Root | Organizations, SCPs, organization CloudTrail, Terraform state bucket. No workloads. |
