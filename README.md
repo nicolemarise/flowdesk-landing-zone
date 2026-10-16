@@ -129,23 +129,24 @@ Detailed test steps and outcomes:
 
 Guardrails were tested by attempting the forbidden actions from the Workloads account. Results and notes, including a mistake I made by testing from the wrong account first, are in [docs/guardrail-validation.md](docs/guardrail-validation.md).
 
-## Repository Structure
+
+## Repository Layout
 
 ```text
-bootstrap/          # Terraform state bucket setup
-organization/       # AWS Organization, OUs, accounts, SCPs
-logging/            # Log Archive bucket and organization CloudTrail
-config/             # AWS Config recorders
-iam/                # Least-privilege deployment role
-modules/
-├── config-recorder/  # Reusable Config recorder module
-└── flowdesk/         # Reusable application infrastructure module
-workloads/
-└── flowdesk-prod/    # Workload deployment configuration
-docs/               # ADRs, runbooks, validation results, screenshots
+.
+├── bootstrap/          # Terraform state bucket
+├── organization/       # Organization, OUs, accounts, SCPs
+├── logging/            # Log Archive and organization CloudTrail
+├── config/             # AWS Config recorders
+├── iam/                # Terraform deployer role
+├── modules/
+│   ├── config-recorder/ # Reusable Config recorder
+│   └── flowdesk/        # Reusable Flowdesk infrastructure
+├── workloads/
+│   └── flowdesk-prod/   # Workload deployment
+└── docs/                # ADRs, runbook, validation, screenshots
 ```
 
-All changes to `main` go through pull requests (enforced by a GitHub ruleset).
 
 ## Cost Management
 
