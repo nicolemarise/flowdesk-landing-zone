@@ -177,7 +177,6 @@ How to onboard a new workload account: [docs/runbook-onboard-workload-account.md
 
 <img width="1361" height="761" alt="Screenshot 2026-10-10 180559" src="https://github.com/user-attachments/assets/30f8050c-8238-4d20-9a5b-3b9cf692931b" />
 <img width="1361" height="760" alt="Screenshot 2026-10-10 183427" src="https://github.com/user-attachments/assets/a8d104be-92fe-43f3-b52d-2f0ae5eeb09f" />
-<img width="1360" height="760" alt="Screenshot 2026-10-10 183903" src="https://github.com/user-attachments/assets/b49c1204-5055-4ed6-bb26-39e8eb7e05ba" />
 <img width="1365" height="767" alt="Screenshot 2026-10-10 184502" src="https://github.com/user-attachments/assets/e23d7d64-b0e8-43a2-a387-8fce6816e8f3" />
 
 <img width="1364" height="767" alt="Screenshot 2026-10-10 190231" src="https://github.com/user-attachments/assets/4523ac4f-a9cb-4619-9be5-c69be560176c" />
