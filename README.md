@@ -25,8 +25,8 @@ A 5-account AWS Organization where the account boundary is the blast-radius boun
 
 ## Architecture
 
-<!-- TODO: add your architecture diagram here, for example: -->
-![Flowdesk landing zone architecture](docs/architecture-diagram.png)
+<img width="1934" height="1231" alt="Flowdesk Landing Zone Architecture diagram drawio (1)" src="https://github.com/user-attachments/assets/3e6e9124-99f0-4c0f-add0-a565bc697866" />
+
 
 | Account | OU | Purpose |
 |---|---|---|
