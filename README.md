@@ -92,33 +92,6 @@ Guardrails were tested by attempting the forbidden actions from the Workloads ac
 | Public S3 protection | Attempted to change Block Public Access / bucket policy | Denied by SCP (AccessDenied) |
 | Root user denial | Not tested: requires signing in as a member account's root user | Codified and attached, untested |
 
-## Evidence
-
-<!-- TODO: keep your 8-10 best screenshots here, each with a one-line caption saying what it proves.
-     Rename files to something descriptive (for example scp-region-denied.png) and keep them in docs/screenshots/. -->
-
-### Organization and accounts
-![AWS Organization with five accounts](docs/screenshots/organization-accounts.png)
-*Five accounts across the Root, Security, Infrastructure and Workloads OUs.*
-
-### Guardrails in action
-![SCP denying a prohibited action](docs/screenshots/scp-denied.png)
-*A forbidden action blocked by an SCP, tested from the Workloads account.*
-
-### Logging
-![CloudTrail logs in the Log Archive bucket](docs/screenshots/cloudtrail-log-archive.png)
-*Organization CloudTrail delivering logs to the Log Archive account.*
-
-### Workload deployment
-![terraform apply through the deployer role](docs/screenshots/terraform-apply-deployer-role.png)
-*35 Flowdesk resources created through the least-privilege deployer role.*
-
-<details>
-<summary>More screenshots</summary>
-
-<!-- Put the remaining screenshots here, with captions where possible. -->
-
-</details>
 
 ## Repository structure
 
@@ -155,6 +128,8 @@ Any historical workload cost I quote is an estimate, not a verified price. Actua
 ## Runbook
 
 How to onboard a new workload account: [`docs/runbook-onboard-workload-account.md`](docs/runbook-onboard-workload-account.md).
+
+## Evidence
 
 <img width="1361" height="761" alt="Screenshot 2026-10-10 180559" src="https://github.com/user-attachments/assets/30f8050c-8238-4d20-9a5b-3b9cf692931b" />
 <img width="1361" height="760" alt="Screenshot 2026-10-10 183427" src="https://github.com/user-attachments/assets/a8d104be-92fe-43f3-b52d-2f0ae5eeb09f" />
