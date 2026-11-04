@@ -1,8 +1,19 @@
 # Flowdesk Landing Zone
 
-A governed multi-account AWS foundation for Flowdesk, built entirely with Terraform. The original single-account Flowdesk stack was refactored into a reusable module and deployed into a dedicated Workloads account, inside an AWS Organization with codified guardrails (Service Control Policies), organization-wide CloudTrail, AWS Config in every account, and a least-privilege deployment role.
+> A governed 5-account AWS foundation built entirely with Terraform: guardrails as code, tamper-resistant logging, and a least-privilege deployment role.
 
-**Stack:** AWS Organizations, SCPs, CloudTrail, AWS Config, IAM, S3, Terraform (S3 remote state with native locking), GitHub (PR-only changes to `main`).
+**Status:** Implemented and tested in AWS. The Flowdesk workload stack (35 resources) was destroyed after testing to control cost. The governance layer and all code remain, with screenshots and validation evidence in [`docs/`](docs/).
+
+**Stack:** AWS Organizations, Service Control Policies (SCPs), CloudTrail, AWS Config, IAM, S3, Terraform (S3 remote state with native locking), GitHub (PR-only changes to `main`).
+
+## Key capabilities
+
+- Five-account AWS Organization with separated responsibilities
+- Six SCPs enforcing organizational guardrails
+- One organization-wide, multi-region CloudTrail delivering to a deletion-protected log archive
+- AWS Config recording in every account
+- Least-privilege cross-account deployment role, so routine deploys don't use an admin identity
+- Reusable Terraform modules, with the original Flowdesk stack refactored into one
 
 ## The problem
 
@@ -12,47 +23,10 @@ Flowdesk was built and proven in a single AWS account with a personal admin iden
 
 A 5-account AWS Organization where the account boundary is the blast-radius boundary, guardrails are code, and logs are written somewhere the workload account cannot erase.
 
-
 ## Architecture
 
-```mermaid
-flowchart TB
-    MGMT["Management Account<br/>Organizations, SCPs, Terraform State"]
-    SEC["Security Account<br/>Security OU"]
-    LOG["Log Archive Account<br/>Centralized S3 Logs"]
-    SHARED["Shared Services Account<br/>Infrastructure OU"]
-    WORK["Workloads Account<br/>FlowDesk Application"]
-
-    MGMT -->|"Organization CloudTrail"| LOG
-    MGMT -->|"Assumes deployment role"| WORK
-    SEC -->|"AWS Config delivery"| LOG
-    SHARED -->|"AWS Config delivery"| LOG
-    WORK -->|"AWS Config delivery"| LOG
-```
-  
-
-## Technologies Used
-
-- **Cloud Platform:** Amazon Web Services (AWS)
-- **Infrastructure as Code:** Terraform
-- **Organization & Governance:** AWS Organizations, Service Control Policies (SCPs)
-- **Security & Identity:** AWS IAM, least-privilege access, cross-account IAM roles
-- **Audit & Compliance:** AWS CloudTrail, AWS Config
-- **Storage & Logging:** Amazon S3, centralized log archive
-- **Validation:** Terraform validation and AWS configuration testing
-
-## Key Capabilities
-
-- Five-account AWS Organization with separated responsibilities
-- Six Service Control Policies for organizational guardrails
-- Centralized, organization-wide CloudTrail logging
-- AWS Config for resource configuration visibility
-- Least-privilege cross-account deployment role
-- Terraform-based infrastructure deployment and management
-
-## Project Status
-
-The landing-zone configuration and workload deployment were implemented and tested in AWS. The workload stack was subsequently destroyed to control ongoing costs. The repository retains the implementation and documentation, with screenshots and validation evidence used to demonstrate the project.
+<!-- TODO: add your architecture diagram here, for example: -->
+![Flowdesk landing zone architecture](docs/architecture-diagram.png)
 
 | Account | OU | Purpose |
 |---|---|---|
@@ -62,11 +36,11 @@ The landing-zone configuration and workload deployment were implemented and test
 | Shared Services | Infrastructure | Reserved for shared tooling. Currently holds only its AWS Config recorder. |
 | Workloads | Workloads | Flowdesk: VPC, ALB, Auto Scaling Group, RDS, S3 static site, CloudWatch. |
 
-The reasoning, including the alternatives rejected (single account, account-per-environment, AWS Control Tower), is in [ADR 0001](docs/adr/0001-account-structure.md).
+The reasoning, including the alternatives I rejected (single account, account-per-environment, AWS Control Tower), is in [ADR 0001](docs/).
 
 ## Guardrails (Service Control Policies)
 
-Six SCPs, defined in `organization/scps.tf` and attached to the Workloads OU:
+Six SCPs, defined in [`organization/scps.tf`](organization/scps.tf) and attached to the Workloads OU:
 
 | SCP | What it prevents |
 |---|---|
@@ -89,7 +63,7 @@ SCPs never apply to the management account, so all validation was run from the W
 
 The original Terraform (six modules: network, security, storage, compute, database, monitoring) now lives in `modules/flowdesk/` as a reusable module with no provider block of its own. It is deployed from `workloads/flowdesk-prod/`, whose provider assumes a role in the Workloads account instead of using a personal admin identity.
 
-Deploying it into the governed account exposed code that the guardrails correctly rejected or that needed changing:
+Deploying into the governed account exposed code that the guardrails correctly rejected, or that needed changing:
 
 | Finding | Fix |
 |---|---|
@@ -99,41 +73,56 @@ Deploying it into the governed account exposed code that the guardrails correctl
 | Hardcoded EC2 key pair | Made optional. Instances are in private subnets with no SSH |
 | Windows line endings corrupted the user data script | Strip carriage returns in Terraform before encoding |
 
+## Controlled cross-account deployment
 
-## Controlled Cross-Account Deployment
-
-The `flowdesk-terraform-deployer` role enables Terraform
-to deploy the Flowdesk workload into a separate AWS account
-without relying on an administrator role for routine deployment.
-
-Its trust policy, service-level permissions, region restrictions,
-and explicit deny statements limit its access. Fine-grained,
-action-by-action permissions remain a planned improvement.
+The `flowdesk-terraform-deployer` role lets Terraform deploy the Flowdesk workload into a separate AWS account without relying on an administrator role for routine deployment. Its trust policy, service-level permissions, region restrictions and explicit deny statements limit its access. Action-by-action permissions remain a planned improvement.
 
 The full Flowdesk stack (35 resources) was created and destroyed through this role.
 
 ## Validation
 
-## Validation Summary
+Guardrails were tested by attempting the forbidden actions from the Workloads account. Detailed steps and outcomes, including a mistake I made by testing from the wrong account first, are in [`docs/guardrail-validation.md`](docs/guardrail-validation.md).
 
+<!-- TODO: confirm each result below against docs/guardrail-validation.md before publishing -->
 | Control | Test performed | Result |
 |---|---|---|
-| Region restriction | Attempted a prohibited regional action | See validation evidence |
-| Logging protection | Attempted a restricted logging change | See validation evidence |
-| Encryption requirement | Tested an unencrypted resource configuration | See validation evidence |
-| Public S3 protection | Tested a prohibited public-access change | See validation evidence |
+| Region restriction | Attempted an action in a prohibited region | Denied by SCP (AccessDenied) |
+| Logging protection | Attempted to stop or modify CloudTrail / Config | Denied by SCP (AccessDenied) |
+| Encryption requirement | Attempted to create an unencrypted resource | Denied by SCP (AccessDenied) |
+| Public S3 protection | Attempted to change Block Public Access / bucket policy | Denied by SCP (AccessDenied) |
+| Root user denial | Not tested: requires signing in as a member account's root user | Codified and attached, untested |
 
-Detailed test steps and outcomes:
-[Guardrail Validation](docs/guardrail-validation.md)
+## Evidence
 
+<!-- TODO: keep your 8-10 best screenshots here, each with a one-line caption saying what it proves.
+     Rename files to something descriptive (for example scp-region-denied.png) and keep them in docs/screenshots/. -->
 
-Guardrails were tested by attempting the forbidden actions from the Workloads account. Results and notes, including a mistake I made by testing from the wrong account first, are in [docs/guardrail-validation.md](docs/guardrail-validation.md).
+### Organization and accounts
+![AWS Organization with five accounts](docs/screenshots/organization-accounts.png)
+*Five accounts across the Root, Security, Infrastructure and Workloads OUs.*
 
+### Guardrails in action
+![SCP denying a prohibited action](docs/screenshots/scp-denied.png)
+*A forbidden action blocked by an SCP, tested from the Workloads account.*
 
+### Logging
+![CloudTrail logs in the Log Archive bucket](docs/screenshots/cloudtrail-log-archive.png)
+*Organization CloudTrail delivering logs to the Log Archive account.*
 
-## Repository Structure
+### Workload deployment
+![terraform apply through the deployer role](docs/screenshots/terraform-apply-deployer-role.png)
+*35 Flowdesk resources created through the least-privilege deployer role.*
 
-```text
+<details>
+<summary>More screenshots</summary>
+
+<!-- Put the remaining screenshots here, with captions where possible. -->
+
+</details>
+
+## Repository structure
+
+```
 .
 ├── bootstrap/           # Terraform state bucket
 ├── organization/        # Organization, OUs, accounts, SCPs
@@ -148,32 +137,24 @@ Guardrails were tested by attempting the forbidden actions from the Workloads ac
 └── docs/                # ADRs, runbook, validation, screenshots
 ```
 
-## Cost Management
+## Cost management
 
-The Flowdesk workload stack was destroyed after testing to
-avoid ongoing compute, load balancer and database charges.
+The Flowdesk workload stack was destroyed after testing to avoid ongoing compute, load balancer and database charges. The AWS Organization and supporting governance resources remain. AWS Config recording and delivery, S3 storage and requests, and other enabled services may still incur small charges depending on usage.
 
-The AWS Organization and supporting governance resources remain.
-AWS Config recording and delivery, S3 storage and requests, and
-other enabled services may still incur charges depending on usage.
-
-The historical workload cost is an estimate, not a verified
-current price. Actual costs depend on Region, resource sizing,
-usage and AWS pricing.
-
+Any historical workload cost I quote is an estimate, not a verified price. Actual costs depend on Region, resource sizing, usage and AWS pricing.
 
 ## Known limitations and next steps
 
 - The deployer role is scoped by service, not by individual action (for example `ec2:*` limited to eu-west-1). Tightening it to an action-by-action list, for instance from CloudTrail data, is the next step. The role itself was created through `OrganizationAccountAccessRole`, which remains available for break-glass use.
 - SCPs are attached to the Workloads OU only. Extending them to the Security and Infrastructure OUs is planned.
-- The deny-root SCP is codified and attached but not tested, because testing requires signing in as the member account's root user.
+- The deny-root SCP is codified and attached but untested, because testing requires signing in as the member account's root user.
 - The Security and Shared Services accounts are provisioned but empty. A Config aggregator and security tooling would live in Security.
 - The Terraform state bucket lives in the management account. A production setup would move it to a dedicated account.
 - Dev, staging and prod are not yet separate accounts. The Workloads OU is designed to hold them.
 
 ## Runbook
 
-How to onboard a new workload account: [docs/runbook-onboard-workload-account.md](docs/runbook-onboard-workload-account.md).
+How to onboard a new workload account: [`docs/runbook-onboard-workload-account.md`](docs/runbook-onboard-workload-account.md).
 
 <img width="1361" height="761" alt="Screenshot 2026-10-10 180559" src="https://github.com/user-attachments/assets/30f8050c-8238-4d20-9a5b-3b9cf692931b" />
 <img width="1361" height="760" alt="Screenshot 2026-10-10 183427" src="https://github.com/user-attachments/assets/a8d104be-92fe-43f3-b52d-2f0ae5eeb09f" />
